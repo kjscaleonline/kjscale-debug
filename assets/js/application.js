@@ -4,8 +4,27 @@
    - Optional: set SERVER_ENDPOINT to enable server POST on submit
 */
 
-const STORAGE_KEY = 'kj_applications';
-const SERVER_ENDPOINT = ''; // e.g. 'https://example.com/api/apply' (POSTs JSON). Leave empty to keep local only.
+// Import the functions you need from the SDKs you need
+import { initializeApp } from "firebase/app";
+import { getAnalytics } from "firebase/analytics";
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
+
+// Your web app's Firebase configuration
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+  apiKey: "AIzaSyBjqeY8k2x6666w9m4WzpWZ2yJ504XRp4I",
+  authDomain: "kjscale.firebaseapp.com",
+  projectId: "kjscale",
+  storageBucket: "kjscale.firebasestorage.app",
+  messagingSenderId: "203858987896",
+  appId: "1:203858987896:web:a46cd063cd8385b9f1968d",
+  measurementId: "G-LV9C4MPTM8"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
 
 document.addEventListener('DOMContentLoaded', () => {
   const year = document.getElementById('year');
@@ -52,55 +71,20 @@ function handleApplicationSubmit(event){
     createdAt: new Date().toISOString()
   };
 
-  // Save locally
-  const all = loadSubmissions();
-  all.push(data);
-  try {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(all));
-    formMessage.textContent = 'Application saved successfully.';
-    formMessage.style.color = '#0f766e';
-    form.reset();
-    renderSubmissions();
-  } catch (err) {
-    console.error('Failed to save submission', err);
-    formMessage.textContent = 'Could not save application locally. Check browser settings.';
-    formMessage.style.color = '#b91c1c';
-  }
-
-  // Optional: send to server if endpoint configured
-  if (SERVER_ENDPOINT) {
-    fetch(SERVER_ENDPOINT, {
-      method: 'POST',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify(data)
-    }).then(r => {
-      if (!r.ok) throw new Error('Server returned ' + r.status);
-      return r.json();
-    }).then(() => {
-      // optionally mark as synced; for now we do nothing
-    }).catch(err => {
-      console.warn('Failed to send to server', err);
+  // Save to Cloud Firestore
+  addDoc(collection(db, "submissions"), data)
+    .then(() => {
+      formMessage.textContent = 'Application submitted successfully!';
+      formMessage.style.color = '#0f766e';
+      form.reset();
+    })
+    .catch((err) => {
+      console.error('Failed to save submission to Firestore:', err);
+      formMessage.textContent = 'Could not submit application. Please try again.';
+      formMessage.style.color = '#b91c1c';
     });
-  }
-}
 
-function loadSubmissions(){
-  try {
-    const raw = localStorage.getItem(STORAGE_KEY);
-    return raw ? JSON.parse(raw) : [];
-  } catch {
-    return [];
-  }
-}
 
-function renderSubmissions(){
-  const list = document.getElementById('submissionsList');
-  if (!list) return;
-  const items = loadSubmissions().slice().reverse(); // newest first
-  if (items.length === 0) {
-    list.innerHTML = '<p class="muted">No saved submissions yet.</p>';
-    return;
-  }
   list.innerHTML = items.map(it => {
     return `<div class="submission-item" data-id="${escapeHtml(it.id)}">
       <strong>${escapeHtml(it.fullName)} — ${escapeHtml(it.position)}</strong>
@@ -117,30 +101,6 @@ function toggleSubmissions(show){
   if (!panel) return;
   panel.hidden = !show;
   if (show) renderSubmissions();
-}
-
-// CSV export
-function exportCSV(){
-  const items = loadSubmissions();
-  if (!items.length) {
-    alert('No submissions to export.');
-    return;
-  }
-  const headers = ['id','fullName','email','phone','position','experience','country','portfolio','coverLetter','termsAccepted','createdAt'];
-  const rows = [headers.join(',')];
-  for (const it of items) {
-    const row = headers.map(h => `"${(it[h] ?? '').toString().replace(/"/g,'""')}"`).join(',');
-    rows.push(row);
-  }
-  const csv = rows.join('\n');
-  downloadBlob(csv, `kj_applications_${new Date().toISOString().slice(0,10)}.csv`, 'text/csv;charset=utf-8;');
-}
-
-function clearAllSubmissions(){
-  if (!confirm('Clear ALL saved submissions from browser local storage? This cannot be undone.')) return;
-  localStorage.removeItem(STORAGE_KEY);
-  renderSubmissions();
-  alert('All saved submissions removed from local storage.');
 }
 
 // Utilities
