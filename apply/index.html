@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Apply — KJScale</title>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/css/application.css">
+  <!-- Firebase SDKs (compat) - required only if you configure firebase in assets/js/firebase-config.js -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
+  <!-- If you provide /assets/js/firebase-config.js (see example in repo), it will be loaded by application.js -->
+</head>
+<body>
+  <main class="page">
+    <header class="page-header">
+      <div class="container header-inner">
+        <a class="brand" href="/">KJScale</a>
+        <nav class="nav">
+          <a href="/" class="nav-link">Home</a>
+          <a href="/careers" class="nav-link active">Careers</a>
+        </nav>
+      </div>
+    </header>
+
+    <section id="application" class="application">
+      <div class="container">
+        <div class="card">
+          <h1 class="title">Apply Now</h1>
+          <p class="application-intro">Ready to join our team? Fill out the form below and tell us about yourself.</p>
+
+          <form class="application-form" id="applicationForm" onsubmit="handleApplicationSubmit(event)" novalidate>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="fullName">Full Name *</label>
+                <input type="text" id="fullName" name="fullName" required placeholder="John Doe">
+              </div>
+              <div class="form-group">
+                <label for="email">Email Address *</label>
+                <input type="email" id="email" name="email" required placeholder="john@example.com">
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="phone">Phone Number *</label>
+                <input type="tel" id="phone" name="phone" required placeholder="+1 (555) 123-4567">
+              </div>
+              <div class="form-group">
+                <label for="position">Position Applying For *</label>
+                <select id="position" name="position" required>
+                  <option value="">Select a position</option>
+                  <option value="Social Media Manager">Social Media Manager</option>
+                  <option value="Video Editor">Video Editor</option>
+                  <option value="Graphic Designer">Graphic Designer</option>
+                  <option value="Customer Service Representative">Customer Service Representative</option>
+                  <option value="Virtual Assistant">Virtual Assistant</option>
+                  <option value="Digital Advertiser">Digital Advertiser</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="experience">Years of Experience *</label>
+                <select id="experience" name="experience" required>
+                  <option value="">Select experience level</option>
+                  <option value="0-2 years">0-2 years</option>
+                  <option value="2-5 years">2-5 years</option>
+                  <option value="5-10 years">5-10 years</option>
+                  <option value="10+ years">10+ years</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="country">Country/Timezone *</label>
+                <input type="text" id="country" name="country" required placeholder="e.g., Philippines (PST)">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="portfolio">Portfolio/Website Link</label>
+              <input type="url" id="portfolio" name="portfolio" placeholder="https://yourportfolio.com">
+            </div>
+
+            <div class="form-group">
+              <label for="coverLetter">Cover Letter *</label>
+              <textarea id="coverLetter" name="coverLetter" rows="6" required placeholder="Tell us why you're interested in joining KJScale and what makes you a great fit for the position."></textarea>
+            </div>
+
+            <div class="form-group checkbox">
+              <label class="checkbox-label">
+                <input type="checkbox" name="terms" id="terms" required>
+                I agree to the terms and conditions *
+              </label>
+            </div>
+
+            <div class="form-actions">
+              <button type="submit" class="submit-button">Submit Application</button>
+              <button type="button" id="viewSubmissionsBtn" class="secondary-button">View Submissions</button>
+              <button type="button" id="adminSignInBtn" class="secondary-button" hidden>Admin Sign In</button>
+              <button type="button" id="adminSignOutBtn" class="secondary-button" hidden>Sign Out</button>
+            </div>
+
+            <div id="formMessage" class="form-message" aria-live="polite"></div>
+          </form>
+        </div>
+
+        <div id="submissionsPanel" class="card submissions-panel" hidden>
+          <div class="panel-header">
+            <h2>Saved Submissions</h2>
+            <div class="panel-actions">
+              <button id="exportBtn" class="secondary-button">Download CSV</button>
+              <button id="clearBtn" class="danger-button">Clear All</button>
+              <button id="closeSubmissions" class="secondary-button">Close</button>
+            </div>
+          </div>
+          <div id="submissionsList" class="submissions-list" aria-live="polite"></div>
+        </div>
+      </div>
+    </section>
+
+    <footer class="site-footer">
+      <div class="container footer-inner">
+        <p>&copy; <span id="year"></span> KJScale. All rights reserved.</p>
+      </div>
+    </footer>
+  </main>
+
+  <!-- Optional firebase-config.js: replace values with your project's config and set KJ_ADMINS = ['admin@example.com'] -->
+  <script src="/assets/js/firebase-config.js"></script>
+  <script src="/assets/js/application.js" defer></script>
+</body>
+</html>
