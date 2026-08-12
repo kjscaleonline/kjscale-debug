@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Job Oppurtunities — KJScale</title>
+  <title>Apply — KJScale</title>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/css/application.css">
@@ -93,6 +93,10 @@
 
             <div class="form-actions">
               <button type="submit" class="submit-button">Submit Application</button>
+              <div class="admin-actions">
+                <a class="admin-link" href="https://account.kjscale.online/create-account" target="_blank" rel="noopener">Admin Create Account</a>
+                <a class="admin-link" href="https://account.kjscale.online/login" id="externalAdminLogin">Admin Sign In</a>
+              </div>
               <button type="button" id="viewSubmissionsBtn" class="secondary-button">View Submissions</button>
             </div>
 
@@ -121,6 +125,7 @@
     </footer>
   </main>
 
+  <script src="assets/js/firebase-config.js"></script>
   <script src="assets/js/application.js" defer></script>
 </body>
 </html>

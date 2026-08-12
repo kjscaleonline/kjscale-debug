@@ -96,7 +96,7 @@ body{
 .checkbox-label{display:flex; gap:0.5rem; align-items:center; font-size:0.95rem; color:var(--muted)}
 .checkbox-label input{width:1rem; height:1rem}
 
-.form-actions{display:flex; gap:1rem; align-items:center; margin-top:0.5rem}
+.form-actions{display:flex; gap:1rem; align-items:center; margin-top:0.5rem; flex-wrap:wrap}
 .submit-button{
   background:linear-gradient(90deg,var(--accent),var(--accent-2));
   color:var(--accent-contrast);
@@ -126,6 +126,19 @@ body{
 
 .form-message{margin-top:0.75rem; color:var(--muted)}
 
+/* admin links */
+.admin-actions{display:flex; gap:0.5rem; align-items:center}
+.admin-link{
+  display:inline-block;
+  padding:0.55rem 0.9rem;
+  border-radius:8px;
+  color:var(--accent);
+  background:transparent;
+  border:1px solid rgba(15,118,110,0.08);
+  text-decoration:none;
+  font-weight:600;
+}
+
 .submissions-panel .panel-header{
   display:flex;
   justify-content:space-between;
@@ -143,4 +156,6 @@ body{
   .application-form .form-row{grid-template-columns:1fr}
   .container{padding:1rem}
   .card{padding:1rem}
+  .admin-actions{width:100%; justify-content:flex-start}
+  .admin-link{flex:1}
 }
