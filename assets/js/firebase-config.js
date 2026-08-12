@@ -5,15 +5,13 @@
 */
 
 // Example (replace with your Firebase project's config):
-// window.FIREBASE_CONFIG = {
-//   apiKey: "AIza...",
-//   authDomain: "your-project.firebaseapp.com",
-//   projectId: "your-project-id",
-//   // optional fields:
-//   // storageBucket: "your-project.appspot.com",
-//   // messagingSenderId: "...",
-//   // appId: "1:...:web:...",
-// };
+ window.FIREBASE_CONFIG = {
+   apiKey: "AIzaSyBjqeY8k2x6666w9m4WzpWZ2yJ504XRp4I",
+   authDomain: "kjscale.firebaseapp.com",
+   projectId: "kjscale",
+    storageBucket: "kjscale.firebaseapp.com",
+    messagingSenderId: "203858987896",
+    appId: "1:203858987896:web:a46cd063cd8385b9f1968d",
+ };
 
-window.FIREBASE_CONFIG = null; // set to your config object to enable Firebase features
-window.KJ_ADMINS = ['admin@example.com'];
+window.KJ_ADMINS = ['gloomsper@gmail.com'];
